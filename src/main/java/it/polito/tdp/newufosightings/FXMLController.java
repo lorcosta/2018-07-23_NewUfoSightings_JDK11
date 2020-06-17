@@ -33,7 +33,7 @@ public class FXMLController {
     private Button btnSelezionaAnno;
 
     @FXML
-    private ComboBox<?> cmbBoxForma;
+    private ComboBox<String> cmbBoxForma;
 
     @FXML
     private Button btnCreaGrafo;
@@ -49,17 +49,55 @@ public class FXMLController {
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
-
+    	this.txtResult.clear();
+    	String annoString=this.txtAnno.getText();
+    	Integer anno=null;
+    	try {
+    		anno=Integer.parseInt(annoString);
+    	}catch (NumberFormatException e) {
+    		e.printStackTrace();
+    		this.txtResult.appendText("ATTENZIONE! Il valore inserito non è un numero corretto.\n");
+    	}
+    	if(anno<1940 || anno>2014) {
+    		this.txtResult.appendText("ATTENZIONE! Vengono considerati validi sono gli anni compresi tra il 1940 e il 2014\n");
+    		return;
+    	}
+    	String shape=this.cmbBoxForma.getValue();
+    	if(shape==null) {
+    		this.txtResult.appendText("ATTENZIONE! Forse non e' stato creato il grafo! Riprovare...\n");
+    		doSelezionaAnno(event);
+    	}
+    	model.creaGrafo(shape, anno);
+    	Integer vertici=model.getNumVertici(), archi=model.getNumArchi();
+    	if(vertici==0 && archi.equals(0)) {
+    		this.txtResult.appendText("ATTENZIONE! Qualcosa e' andato storto nella creazione del grafo.\n");
+    		return;
+    	}
+    	this.txtResult.appendText("GRAFO CREATO!\n #VERTICI: "+vertici+" e #ARCHI: "+archi+"\n");
     }
 
     @FXML
     void doSelezionaAnno(ActionEvent event) {
-
+    	this.txtResult.clear();
+    	String annoString=this.txtAnno.getText();
+    	Integer anno=null;
+    	try {
+    		anno=Integer.parseInt(annoString);
+    	}catch (NumberFormatException e) {
+    		e.printStackTrace();
+    		this.txtResult.appendText("ATTENZIONE! Il valore inserito non è un numero corretto.\n");
+    	}
+    	if(anno<1940 || anno>2014) {
+    		this.txtResult.appendText("ATTENZIONE! Vengono considerati validi sono gli anni compresi tra il 1940 e il 2014\n");
+    		return;
+    	}
+    	this.cmbBoxForma.getItems().addAll(model.getForme(anno));
     }
 
     @FXML
     void doSimula(ActionEvent event) {
-
+    	this.txtResult.clear();
+    	
     }
 
     @FXML
