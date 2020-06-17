@@ -1,10 +1,12 @@
 package it.polito.tdp.newufosightings;
 
 import java.net.URL;
+import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.newufosightings.model.Model;
+import it.polito.tdp.newufosightings.model.State;
 import it.polito.tdp.newufosightings.model.StatoConPesi;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -127,7 +129,11 @@ public class FXMLController {
     	if(alfa>100 || alfa<0) {
     		this.txtResult.appendText("ATTENZIONE! Inserire un valore di 'Alfa' compreso tra 0 e 100");
     	}
-    	model.simula(time,alfa);
+    	Collection<State> stati=model.simula(time,alfa);
+    	this.txtResult.appendText("STATO-->DEFCON LEVEL\n");
+    	for(State s:stati) {
+    		this.txtResult.appendText(s+"-->"+s.getDefconLevel()+"\n");
+    	}
     }
 
     @FXML

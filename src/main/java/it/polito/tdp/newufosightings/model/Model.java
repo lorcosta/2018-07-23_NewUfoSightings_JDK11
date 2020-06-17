@@ -1,6 +1,7 @@
 package it.polito.tdp.newufosightings.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,10 +63,15 @@ public class Model {
 		}
 		return result;
 	}
-	public void simula(Integer time, Integer alfa) {
+	/**
+	 * Ritorna la lista di stati tramite i quali si può accedere al DEFCON level
+	 * @param time
+	 * @param alfa
+	 */
+	public Collection<State> simula(Integer time, Integer alfa) {
 		sim.init(time,alfa,idMapState,shape,anno);
 		sim.run();
-		
+		return idMapState.values();
 	}
 
 }
