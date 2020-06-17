@@ -43,5 +43,18 @@ public class Model {
 	public Integer getNumArchi() {
 		return this.graph.edgeSet().size();
 	}
+	
+	public List<StatoConPesi> getStatiConPesi(){
+		List<StatoConPesi> result=new ArrayList<StatoConPesi>();
+		for(State s:this.graph.vertexSet()) {
+			Double pesoTot=0.;
+			List<State> vicini=Graphs.neighborListOf(this.graph, s);
+			for(State vicino:vicini) {
+				pesoTot+=this.graph.getEdgeWeight(this.graph.getEdge(s, vicino));
+			}
+			result.add(new StatoConPesi(s,pesoTot));
+		}
+		return result;
+	}
 
 }

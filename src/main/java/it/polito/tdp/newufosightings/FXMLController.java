@@ -1,9 +1,11 @@
 package it.polito.tdp.newufosightings;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.newufosightings.model.Model;
+import it.polito.tdp.newufosightings.model.StatoConPesi;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -74,6 +76,12 @@ public class FXMLController {
     		return;
     	}
     	this.txtResult.appendText("GRAFO CREATO!\n #VERTICI: "+vertici+" e #ARCHI: "+archi+"\n");
+    	this.txtResult.appendText("\nSTATI CON RELATIVI PESI DEGLI SRCHI ADIACENTI:\n");
+    	List<StatoConPesi> statiConPesi=model.getStatiConPesi();
+    	for(StatoConPesi s:statiConPesi) {
+    		this.txtResult.appendText(s+"\n");
+    	}
+    	
     }
 
     @FXML

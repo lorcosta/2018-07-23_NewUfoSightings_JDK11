@@ -97,8 +97,6 @@ public class NewUfoSightingsDAO {
 		}
 	}
 
-		
-	}
 	public List<String> getForme(Integer anno) {
 		String sql="SELECT DISTINCT shape " + 
 				"FROM sighting " + 
