@@ -11,17 +11,18 @@ public class Event implements Comparable<Event>{
 	private State stato;
 	private LocalDate datetime;//necessario perchè dopo T1 giorni il livello DEFCON aumenta
 	private List<State> neighbours;
-	private TypeEvent event;
+	private TypeEvent type;
 	/**
 	 * @param stato
 	 * @param datetime
 	 * @param neighbours
 	 */
-	public Event(State stato, LocalDate datetime, TypeEvent event,List<State> neighbours) {
+	public Event(State stato, LocalDate datetime, TypeEvent type,List<State> neighbours) {
 		super();
 		this.stato = stato;
 		this.datetime = datetime;
 		this.neighbours = neighbours;
+		this.type=type;
 	}
 	public State getStato() {
 		return stato;
@@ -33,10 +34,10 @@ public class Event implements Comparable<Event>{
 		return neighbours;
 	}
 	public TypeEvent getEvent() {
-		return event;
+		return type;
 	}
-	public void setEvent(TypeEvent event) {
-		this.event = event;
+	public void setEvent(TypeEvent type) {
+		this.type = type;
 	}
 	@Override
 	public int compareTo(Event other) {
