@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import it.polito.tdp.newufosightings.model.Event;
 import it.polito.tdp.newufosightings.model.Sighting;
 import it.polito.tdp.newufosightings.model.State;
+import it.polito.tdp.newufosightings.model.Event.TypeEvent;
 
 public class NewUfoSightingsDAO {
 
@@ -52,8 +54,7 @@ public class NewUfoSightingsDAO {
 
 			while (rs.next()) {
 				State state = new State(rs.getString("id"), rs.getString("Name"), rs.getString("Capital"),
-						rs.getDouble("Lat"), rs.getDouble("Lng"), rs.getInt("Area"), rs.getInt("Population"),
-						rs.getString("Neighbors"));
+						rs.getDouble("Lat"), rs.getDouble("Lng"), rs.getInt("Area"), rs.getInt("Population"));
 				idMapState.put(state.getId(), state);
 				result.add(state);
 			}
@@ -118,6 +119,35 @@ public class NewUfoSightingsDAO {
 
 			conn.close();
 			return result;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Errore connessione al database");
+			throw new RuntimeException("Error Connection Database");
+		}
+	}
+
+	public List<Event> getAvvistamenti(Map<String,State> idMapState,Integer anno, String shape) {
+		String sql="SELECT * " + 
+				"FROM sighting " + 
+				"WHERE YEAR(datetime)=? AND shape=?";
+		List<Event> avvistamenti=new ArrayList<>();
+		try {
+			Connection conn = DBConnect.getConnection();
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setInt(1, anno);
+			st.setString(2, shape);
+			ResultSet rs = st.executeQuery();
+
+			while (rs.next()) {
+				Event e=new Event(idMapState.get(rs.getString("state").toUpperCase()),
+						rs.getDate("datetime").toLocalDate(),TypeEvent.AVVISTAMENTO,
+						idMapState.get(rs.getString("state").toUpperCase()).getNeighbors());
+				avvistamenti.add(e);
+			}
+
+			conn.close();
+			return avvistamenti;
 
 		} catch (SQLException e) {
 			e.printStackTrace();

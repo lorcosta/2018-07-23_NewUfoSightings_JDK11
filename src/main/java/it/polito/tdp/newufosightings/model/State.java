@@ -1,5 +1,7 @@
 package it.polito.tdp.newufosightings.model;
 
+import java.util.List;
+
 public class State {
 	private String id;
 	private String name;
@@ -8,10 +10,10 @@ public class State {
 	private Double lng;
 	private int area;
 	private int population;
-	private String neighbors;
+	private List<State> neighbors;
+	private Double defconLevel=5.;
 
-	public State(String id, String name, String capital, Double lat, Double lng, int area, int population,
-			String neighbors) {
+	public State(String id, String name, String capital, Double lat, Double lng, int area, int population) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -20,7 +22,6 @@ public class State {
 		this.lng = lng;
 		this.area = area;
 		this.population = population;
-		this.neighbors = neighbors;
 	}
 
 	public String getId() {
@@ -79,12 +80,20 @@ public class State {
 		this.population = population;
 	}
 
-	public String getNeighbors() {
+	public List<State> getNeighbors() {
 		return neighbors;
 	}
 
-	public void setNeighbors(String neighbors) {
+	public void setNeighbors(List<State> neighbors) {
 		this.neighbors = neighbors;
+	}
+
+	public Double getDefconLevel() {
+		return defconLevel;
+	}
+
+	public void setDefconLevel(Double defconLevel) {
+		this.defconLevel = defconLevel;
 	}
 
 	@Override
@@ -117,4 +126,5 @@ public class State {
 		return true;
 	}
 
+	
 }

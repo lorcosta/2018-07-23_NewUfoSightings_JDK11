@@ -93,7 +93,7 @@ public class FXMLController {
     		anno=Integer.parseInt(annoString);
     	}catch (NumberFormatException e) {
     		e.printStackTrace();
-    		this.txtResult.appendText("ATTENZIONE! Il valore inserito non è un numero corretto.\n");
+    		this.txtResult.appendText("ATTENZIONE! Il valore 'Anno' inserito non è un numero corretto.\n");
     	}
     	if(anno<1940 || anno>2014) {
     		this.txtResult.appendText("ATTENZIONE! Vengono considerati validi sono gli anni compresi tra il 1940 e il 2014\n");
@@ -105,7 +105,29 @@ public class FXMLController {
     @FXML
     void doSimula(ActionEvent event) {
     	this.txtResult.clear();
-    	
+    	String timeString=this.txtT1.getText();
+    	Integer time=null;
+    	try {
+    		time=Integer.parseInt(timeString);
+    	}catch (NumberFormatException e) {
+    		e.printStackTrace();
+    		this.txtResult.appendText("ATTENZIONE! Il valore 'T1' inserito non è un numero corretto.\n");
+    	}
+    	if(time>365 || time<0) {
+    		this.txtResult.appendText("ATTENZIONE! Inserire un valore di 'T1' compreso tra 0 e 365");
+    	}
+    	String alfaString=this.txtAlfa.getText();
+    	Integer alfa=null;
+    	try {
+    		alfa=Integer.parseInt(alfaString);
+    	}catch (NumberFormatException e) {
+    		e.printStackTrace();
+    		this.txtResult.appendText("ATTENZIONE! Il valore 'Alfa' inserito non è un numero corretto.\n");
+    	}
+    	if(alfa>100 || alfa<0) {
+    		this.txtResult.appendText("ATTENZIONE! Inserire un valore di 'Alfa' compreso tra 0 e 100");
+    	}
+    	model.simula(time,alfa);
     }
 
     @FXML

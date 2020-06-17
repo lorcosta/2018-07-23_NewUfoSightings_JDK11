@@ -17,6 +17,9 @@ public class Model {
 	private NewUfoSightingsDAO dao= new NewUfoSightingsDAO();
 	private Graph<State,DefaultWeightedEdge> graph;
 	private Map<String,State> idMapState;
+	private Simulator sim=new Simulator();
+	private Integer anno;
+	private String shape;
 	
 	public Model() {
 		this.idMapState=new HashMap<>();
@@ -27,6 +30,8 @@ public class Model {
 	}
 	
 	public void creaGrafo(String shape,Integer year) {
+		this.shape=shape;
+		this.anno=year;
 		this.graph=new SimpleWeightedGraph<State,DefaultWeightedEdge>(DefaultWeightedEdge.class);
 		Graphs.addAllVertices(this.graph, dao.loadAllStates(idMapState));
 		List<Confine> confini=new ArrayList<>(dao.getStatiConfinanti(shape, year, idMapState));
@@ -49,12 +54,18 @@ public class Model {
 		for(State s:this.graph.vertexSet()) {
 			Double pesoTot=0.;
 			List<State> vicini=Graphs.neighborListOf(this.graph, s);
+			idMapState.get(s.getId()).setNeighbors(vicini);
 			for(State vicino:vicini) {
 				pesoTot+=this.graph.getEdgeWeight(this.graph.getEdge(s, vicino));
 			}
 			result.add(new StatoConPesi(s,pesoTot));
 		}
 		return result;
+	}
+	public void simula(Integer time, Integer alfa) {
+		sim.init(time,alfa,idMapState,shape,anno);
+		sim.run();
+		
 	}
 
 }
